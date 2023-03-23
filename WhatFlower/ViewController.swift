@@ -7,23 +7,30 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    @IBOutlet private weak var takenPhotoImageView: UIImageView!
     
-    @IBOutlet weak var takenPhotoImageView: UIImageView!
-    
+    private let imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
+        imagePicker.delegate = self
+        imagePicker.sourceType = .camera
+        imagePicker.allowsEditing = false
     }
 
-    
-    
-    @IBAction func cameraPressed(_ sender: UIBarButtonItem) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.originalImage] as? UIImage {
+            takenPhotoImageView.image = image
+        }
+        
+        imagePicker.dismiss(animated: true)
     }
     
     
-
+    @IBAction private func cameraPressed(_ sender: UIBarButtonItem) {
+        present(imagePicker , animated: true)
+    }
 }
 
