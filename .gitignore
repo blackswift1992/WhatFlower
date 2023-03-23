@@ -1,6 +1,9 @@
 ## Mac OS X Finder
 .DS_Store
 
+## MLModel large files
+*.mlmodel
+
 ## User settings
 xcuserdata/
 
