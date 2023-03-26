@@ -10,9 +10,10 @@ import CoreML
 import Vision
 import Alamofire
 import SwiftyJSON
+import SDWebImage
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    @IBOutlet private weak var takenPhotoImageView: UIImageView!
+    @IBOutlet private weak var flowerPhoto: UIImageView! //takenPhotoImageView
     @IBOutlet private weak var flowerDescription: UILabel!
     
     private let imagePicker = UIImagePickerController()
@@ -20,17 +21,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupImagePicker()
+        customizeUIElements()
     }
-
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[.editedImage] as? UIImage {
-            takenPhotoImageView.image = image
-            
-            guard let ciimage = CIImage(image: image) else {
-                fatalError("Could not convert into CIImage")
-            }
-            
+        if let image = info[.editedImage] as? UIImage,
+           let ciimage = CIImage(image: image) {
             identifyFlower(image: ciimage)
         }
         
@@ -64,12 +62,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let parameters : [String:String] = [
           "format" : "json",
           "action" : "query",
-          "prop" : "extracts",
+          "prop" : "extracts|pageimages",
           "exintro" : "",
           "explaintext" : "",
           "redirects" : "1",
           "titles" : flowerName,
-          "indexpageids" : ""
+          "indexpageids" : "",
+          "pithumbsize" : "500" //pixels size for pageimage(s)
           ]
 
         Alamofire.request(wikipediaURL, method: .get, parameters: parameters).responseJSON { [weak self] response in
@@ -78,7 +77,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 let flowerJSON = JSON(flower)
                 let pageId = flowerJSON["query"]["pageids"][0].stringValue
                 let extract = flowerJSON["query"]["pages"]["\(pageId)"]["extract"].stringValue
+                let flowerImageURL = flowerJSON["query"]["pages"]["\(pageId)"]["thumbnail"]["source"].stringValue
                 
+                self?.flowerPhoto.sd_setImage(with: URL(string: flowerImageURL))
                 self?.flowerDescription.text = extract
             case .failure(let error):
                 print(error)
@@ -90,6 +91,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         imagePicker.delegate = self
         imagePicker.sourceType = .camera
         imagePicker.allowsEditing = true
+    }
+    
+    private func customizeUIElements() {
+        navigationItem.title = "Take a picture!"
+        
+        flowerPhoto.layer.cornerRadius = 10.0
+        flowerPhoto.clipsToBounds = true
     }
     
     @IBAction private func cameraPressed(_ sender: UIBarButtonItem) {

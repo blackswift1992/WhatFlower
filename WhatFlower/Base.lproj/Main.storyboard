@@ -24,7 +24,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="UA2-3u-M6L">
-                                <rect key="frame" x="0.0" y="506" width="414" height="356"/>
+                                <rect key="frame" x="0.0" y="516" width="414" height="0.0"/>
                                 <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -33,12 +33,12 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="UA2-3u-M6L" secondAttribute="bottom" id="4Eu-NA-m03"/>
                             <constraint firstItem="tiD-kX-Mmm" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="88H-1x-PEj"/>
                             <constraint firstItem="tiD-kX-Mmm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="OfV-Za-Xlq"/>
                             <constraint firstItem="tiD-kX-Mmm" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="X6z-g4-sK2"/>
                             <constraint firstItem="UA2-3u-M6L" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="aKt-J4-6db"/>
-                            <constraint firstItem="UA2-3u-M6L" firstAttribute="top" secondItem="tiD-kX-Mmm" secondAttribute="bottom" id="v9l-1N-J8h"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="UA2-3u-M6L" secondAttribute="bottom" id="lbK-Of-5Cg"/>
+                            <constraint firstItem="UA2-3u-M6L" firstAttribute="top" secondItem="tiD-kX-Mmm" secondAttribute="bottom" constant="10" id="v9l-1N-J8h"/>
                             <constraint firstItem="UA2-3u-M6L" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="yNk-eo-VaW"/>
                         </constraints>
                     </view>
@@ -51,7 +51,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="flowerDescription" destination="UA2-3u-M6L" id="iS1-Fr-sZc"/>
-                        <outlet property="takenPhotoImageView" destination="tiD-kX-Mmm" id="Nw8-tO-sgM"/>
+                        <outlet property="flowerPhoto" destination="tiD-kX-Mmm" id="Nw8-tO-sgM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
