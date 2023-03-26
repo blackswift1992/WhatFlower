@@ -48,6 +48,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		490BF53F29D0A7C2005A9E5D /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				492D9B1829CCBE9200A1FCE4 /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		490BF54029D0A7F6005A9E5D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		490BF54129D0A804005A9E5D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				492D9B1A29CCBE9200A1FCE4 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		492D9B0829CCBE9200A1FCE4 = {
 			isa = PBXGroup;
 			children = (
@@ -71,11 +94,12 @@
 			children = (
 				492D9B1429CCBE9200A1FCE4 /* AppDelegate.swift */,
 				492D9B1629CCBE9200A1FCE4 /* SceneDelegate.swift */,
-				492D9B1829CCBE9200A1FCE4 /* ViewController.swift */,
-				492D9B1A29CCBE9200A1FCE4 /* Main.storyboard */,
+				490BF54029D0A7F6005A9E5D /* Model */,
+				490BF54129D0A804005A9E5D /* View */,
+				490BF53F29D0A7C2005A9E5D /* Controller */,
+				4934F00E29CFE75800DF3F78 /* Extensions */,
 				492D9B1D29CCBE9300A1FCE4 /* Assets.xcassets */,
 				4934F00C29CFE69800DF3F78 /* Colors.xcassets */,
-				4934F00E29CFE75800DF3F78 /* Extensions */,
 				492D9B1F29CCBE9300A1FCE4 /* LaunchScreen.storyboard */,
 				492D9B2229CCBE9300A1FCE4 /* Info.plist */,
 				4971D3FF29CCF2A900E07A31 /* FlowerClassifier.mlmodel */,
