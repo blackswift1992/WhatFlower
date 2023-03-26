@@ -13,11 +13,12 @@ import SwiftyJSON
 import SDWebImage
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    @IBOutlet private weak var flowerPhoto: UIImageView! //takenPhotoImageView
+    @IBOutlet private weak var flowerImage: UIImageView!
     @IBOutlet private weak var flowerDescription: UILabel!
     
-    private let imagePicker = UIImagePickerController()
     private let wikipediaURL = "https://en.wikipedia.org/w/api.php"
+    private let imagePicker = UIImagePickerController()
+    private var takenFlowerPhoto: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,19 +29,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.editedImage] as? UIImage,
-           let ciimage = CIImage(image: image) {
-            identifyFlower(image: ciimage)
+           let ciImage = CIImage(image: image) {
+            takenFlowerPhoto = image
+            identifyFlower(photo: ciImage)
         }
         
         imagePicker.dismiss(animated: true)
     }
     
-    private func identifyFlower(image: CIImage) {
+    private func identifyFlower(photo: CIImage) {
         guard let model = try? VNCoreMLModel(for: MLModel(contentsOf: FlowerClassifier.urlOfModelInThisBundle)) else {
             fatalError("Loading CoreML Model failed")
         }
         
-        let handler = VNImageRequestHandler(ciImage: image)
+        let handler = VNImageRequestHandler(ciImage: photo)
         
         let request = VNCoreMLRequest(model: model) { [weak self] (request, error) in
             guard let identifiedFlower = request.results?.first as? VNClassificationObservation else {
@@ -79,9 +81,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 let extract = flowerJSON["query"]["pages"]["\(pageId)"]["extract"].stringValue
                 let flowerImageURL = flowerJSON["query"]["pages"]["\(pageId)"]["thumbnail"]["source"].stringValue
                 
-                self?.flowerPhoto.sd_setImage(with: URL(string: flowerImageURL))
+                self?.flowerImage.sd_setImage(with: URL(string: flowerImageURL))
                 self?.flowerDescription.text = extract
             case .failure(let error):
+                self?.flowerImage.image = self?.takenFlowerPhoto
+                self?.flowerDescription.text = ""
                 print(error)
             }
         }
@@ -94,10 +98,23 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     private func customizeUIElements() {
-        navigationItem.title = "Take a picture!"
+        let backgroundImage = UIImageView(frame: view.bounds)
+        backgroundImage.clipsToBounds = true
+        backgroundImage.image = UIImage(named: "backgroundImage")
+        backgroundImage.contentMode = .scaleToFill
+        view.addSubview(backgroundImage)
+        view.addSubview(flowerImage)
+        view.addSubview(flowerDescription)
         
-        flowerPhoto.layer.cornerRadius = 10.0
-        flowerPhoto.clipsToBounds = true
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .specialGreen
+        navigationItem.standardAppearance = appearance
+        navigationItem.scrollEdgeAppearance = appearance
+        navigationItem.title = "Take a picture!"
+
+        flowerImage.layer.cornerRadius = 12.0
+        flowerImage.clipsToBounds = true
     }
     
     @IBAction private func cameraPressed(_ sender: UIBarButtonItem) {

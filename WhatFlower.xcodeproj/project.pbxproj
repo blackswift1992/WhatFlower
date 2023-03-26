@@ -13,6 +13,8 @@
 		492D9B1C29CCBE9200A1FCE4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 492D9B1A29CCBE9200A1FCE4 /* Main.storyboard */; };
 		492D9B1E29CCBE9300A1FCE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 492D9B1D29CCBE9300A1FCE4 /* Assets.xcassets */; };
 		492D9B2129CCBE9300A1FCE4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 492D9B1F29CCBE9300A1FCE4 /* LaunchScreen.storyboard */; };
+		4934F00D29CFE69800DF3F78 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4934F00C29CFE69800DF3F78 /* Colors.xcassets */; };
+		4934F01029CFE78B00DF3F78 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4934F00F29CFE78B00DF3F78 /* UIColor.swift */; };
 		4971D40029CCF2A900E07A31 /* FlowerClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4971D3FF29CCF2A900E07A31 /* FlowerClassifier.mlmodel */; };
 		AE69F9AE3349C678FDAF78AE /* Pods_WhatFlower.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB1A427DDCED98F81CC2F86F /* Pods_WhatFlower.framework */; };
 /* End PBXBuildFile section */
@@ -26,6 +28,8 @@
 		492D9B1D29CCBE9300A1FCE4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		492D9B2029CCBE9300A1FCE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		492D9B2229CCBE9300A1FCE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4934F00C29CFE69800DF3F78 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		4934F00F29CFE78B00DF3F78 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		4971D3FF29CCF2A900E07A31 /* FlowerClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = FlowerClassifier.mlmodel; sourceTree = "<group>"; };
 		91BAD38826DD25DF0A80FB67 /* Pods-WhatFlower.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhatFlower.release.xcconfig"; path = "Target Support Files/Pods-WhatFlower/Pods-WhatFlower.release.xcconfig"; sourceTree = "<group>"; };
 		DB1A427DDCED98F81CC2F86F /* Pods_WhatFlower.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WhatFlower.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,11 +74,21 @@
 				492D9B1829CCBE9200A1FCE4 /* ViewController.swift */,
 				492D9B1A29CCBE9200A1FCE4 /* Main.storyboard */,
 				492D9B1D29CCBE9300A1FCE4 /* Assets.xcassets */,
+				4934F00C29CFE69800DF3F78 /* Colors.xcassets */,
+				4934F00E29CFE75800DF3F78 /* Extensions */,
 				492D9B1F29CCBE9300A1FCE4 /* LaunchScreen.storyboard */,
 				492D9B2229CCBE9300A1FCE4 /* Info.plist */,
 				4971D3FF29CCF2A900E07A31 /* FlowerClassifier.mlmodel */,
 			);
 			path = WhatFlower;
+			sourceTree = "<group>";
+		};
+		4934F00E29CFE75800DF3F78 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4934F00F29CFE78B00DF3F78 /* UIColor.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		72D1401209184F025FD3BAC3 /* Pods */ = {
@@ -155,6 +169,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				492D9B2129CCBE9300A1FCE4 /* LaunchScreen.storyboard in Resources */,
+				4934F00D29CFE69800DF3F78 /* Colors.xcassets in Resources */,
 				492D9B1E29CCBE9300A1FCE4 /* Assets.xcassets in Resources */,
 				492D9B1C29CCBE9200A1FCE4 /* Main.storyboard in Resources */,
 			);
@@ -213,6 +228,7 @@
 				492D9B1929CCBE9200A1FCE4 /* ViewController.swift in Sources */,
 				492D9B1529CCBE9200A1FCE4 /* AppDelegate.swift in Sources */,
 				492D9B1729CCBE9200A1FCE4 /* SceneDelegate.swift in Sources */,
+				4934F01029CFE78B00DF3F78 /* UIColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
