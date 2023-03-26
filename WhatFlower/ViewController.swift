@@ -8,54 +8,88 @@
 import UIKit
 import CoreML
 import Vision
+import Alamofire
+import SwiftyJSON
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet private weak var takenPhotoImageView: UIImageView!
+    @IBOutlet private weak var flowerDescription: UILabel!
     
     private let imagePicker = UIImagePickerController()
+    private let wikipediaURL = "https://en.wikipedia.org/w/api.php"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        imagePicker.delegate = self
-        imagePicker.sourceType = .camera
-        imagePicker.allowsEditing = false
+        setupImagePicker()
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[.originalImage] as? UIImage {
+        if let image = info[.editedImage] as? UIImage {
             takenPhotoImageView.image = image
             
             guard let ciimage = CIImage(image: image) else {
                 fatalError("Could not convert into CIImage")
             }
             
-            detect(image: ciimage)
+            identifyFlower(image: ciimage)
         }
         
         imagePicker.dismiss(animated: true)
     }
     
-    private func detect(image: CIImage) {
+    private func identifyFlower(image: CIImage) {
         guard let model = try? VNCoreMLModel(for: MLModel(contentsOf: FlowerClassifier.urlOfModelInThisBundle)) else {
             fatalError("Loading CoreML Model failed")
         }
         
+        let handler = VNImageRequestHandler(ciImage: image)
+        
         let request = VNCoreMLRequest(model: model) { [weak self] (request, error) in
-            guard let results = request.results as? [VNClassificationObservation] else {
-                fatalError("Model failed to process image.")
+            guard let identifiedFlower = request.results?.first as? VNClassificationObservation else {
+                fatalError("Could not identify image")
             }
             
-            self?.navigationItem.title = "\(results[0].identifier)".capitalized
+            self?.navigationItem.title = identifiedFlower.identifier.capitalized
+            self?.requestInfo(flowerName: identifiedFlower.identifier)
         }
-        
-        let handler = VNImageRequestHandler(ciImage: image)
         
         do {
             try handler.perform([request])
         } catch {
             print(error)
         }
+    }
+    
+    private func requestInfo(flowerName: String) {
+        let parameters : [String:String] = [
+          "format" : "json",
+          "action" : "query",
+          "prop" : "extracts",
+          "exintro" : "",
+          "explaintext" : "",
+          "redirects" : "1",
+          "titles" : flowerName,
+          "indexpageids" : ""
+          ]
+
+        Alamofire.request(wikipediaURL, method: .get, parameters: parameters).responseJSON { [weak self] response in
+            switch response.result {
+            case .success(let flower):
+                let flowerJSON = JSON(flower)
+                let pageId = flowerJSON["query"]["pageids"][0].stringValue
+                let extract = flowerJSON["query"]["pages"]["\(pageId)"]["extract"].stringValue
+                
+                self?.flowerDescription.text = extract
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func setupImagePicker() {
+        imagePicker.delegate = self
+        imagePicker.sourceType = .camera
+        imagePicker.allowsEditing = true
     }
     
     @IBAction private func cameraPressed(_ sender: UIBarButtonItem) {
