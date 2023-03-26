@@ -4,7 +4,6 @@
 //
 //  Created by Олексій Мороз on 23.03.2023.
 //
-
 import UIKit
 import CoreML
 import Vision
@@ -36,8 +35,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         imagePicker.dismiss(animated: true)
     }
-    
-    private func identifyFlower(photo: CIImage) {
+}
+
+
+//MARK: - @IBActions
+private extension ViewController {
+    @IBAction func cameraPressed(_ sender: UIBarButtonItem) {
+        present(imagePicker , animated: true)
+    }
+}
+
+
+//MARK: - Private methods
+
+private extension ViewController {
+    func identifyFlower(photo: CIImage) {
         guard let model = try? VNCoreMLModel(for: MLModel(contentsOf: FlowerClassifier.urlOfModelInThisBundle)) else {
             fatalError("Loading CoreML Model failed")
         }
@@ -60,7 +72,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
-    private func requestInfo(flowerName: String) {
+    func requestInfo(flowerName: String) {
         let parameters : [String:String] = [
           "format" : "json",
           "action" : "query",
@@ -90,14 +102,19 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
         }
     }
-    
-    private func setupImagePicker() {
+}
+
+
+//MARK: - Set up methods
+
+private extension ViewController {
+    func setupImagePicker() {
         imagePicker.delegate = self
         imagePicker.sourceType = .camera
         imagePicker.allowsEditing = true
     }
     
-    private func customizeUIElements() {
+    func customizeUIElements() {
         let backgroundImage = UIImageView(frame: view.bounds)
         backgroundImage.clipsToBounds = true
         backgroundImage.image = UIImage(named: "backgroundImage")
@@ -116,9 +133,4 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         flowerImage.layer.cornerRadius = 12.0
         flowerImage.clipsToBounds = true
     }
-    
-    @IBAction private func cameraPressed(_ sender: UIBarButtonItem) {
-        present(imagePicker , animated: true)
-    }
 }
-
